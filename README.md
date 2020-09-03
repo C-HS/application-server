@@ -1,4 +1,5 @@
 # application-server
+# RUN: mvn spring-boot:run
 Publish message(POST: /api/mqtt/publish)
 
 {
