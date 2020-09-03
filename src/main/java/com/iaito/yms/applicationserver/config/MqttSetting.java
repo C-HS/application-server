@@ -2,18 +2,26 @@ package com.iaito.yms.applicationserver.config;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
 
 
-public class MqttSetting implements MqttCallback{
+public class MqttSetting implements MqttCallbackExtended {
 	
 	MqttClient client;
 	
 	public MqttSetting()
 	{
+		connect();
+	}
+	
+	
+	public void connect()
+	{
+		
 		try
 		{
 			System.out.println("11111111111111");
@@ -22,6 +30,7 @@ public class MqttSetting implements MqttCallback{
 		     client.setCallback(this);
 		     System.out.println("333333333333");
 		     MqttConnectOptions mqOptions=new MqttConnectOptions();
+		     
 		     System.out.println("44444444444444444444");
 		     mqOptions.setAutomaticReconnect(true);
 		     System.out.println("555555555555555");
@@ -30,13 +39,15 @@ public class MqttSetting implements MqttCallback{
 		    // client.connect(mqOptions);      //connecting to broker 
 		     System.out.println("77777777777777");
 
-		     
+		    
 		     if (!client.isConnected()) {
 		    	 client.connect(mqOptions);
 	            }
 		     
 		     client.subscribe("testtopic"); //subscr
-		     System.out.println("9999999999999");
+		     System.out.println("9999999999999 "+mqOptions.getServerURIs());
+		     
+		     System.out.println("SSSSSSSSSSSS ");
 		     
 		     
 		}
@@ -45,7 +56,6 @@ public class MqttSetting implements MqttCallback{
 			System.out.println("Exception "+e.getMessage());
 		}
 	}
-	
 
 	
 	@Override
@@ -53,14 +63,12 @@ public class MqttSetting implements MqttCallback{
 
 		try
 		{
-			      System.out.println("connectionLost");
+			      System.out.println("connectionLost "+client.isConnected());
 			      
-				     while (!client.isConnected()) {
-				    	
-			            }
 				     
-				     client.subscribe("testtopic"); //subscr
-				     System.out.println("9999999999999");
+				      //subscr
+				     //client.subscribe("testtopic"); //subscr
+				     System.out.println("aaaaaaaaaaaaaaaa");
 		}
 		catch(Exception e)
 		{
@@ -80,6 +88,26 @@ public class MqttSetting implements MqttCallback{
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken token) {
 		  System.out.println("deliveryComplete");
+		
+	}
+
+
+	@Override
+	public void connectComplete(boolean reconnect, String serverURI) {
+		  System.out.println("connectComplete "+reconnect+" "+client.isConnected());
+		  try
+		  {
+		  if(reconnect)
+		  {
+			     
+			     client.subscribe("testtopic"); //subscr
+		  }
+		  }
+		  catch(Exception e)
+		  {
+			  System.out.println("connectComplete Exception "+e.getMessage());
+		  }
+		  
 		
 	}
 
