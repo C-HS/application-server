@@ -5,6 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.iaito.yms.applicationserver.config.Mqtt;
+import com.iaito.yms.applicationserver.config.MqttSetting;
 import com.iaito.yms.applicationserver.exceptions.ExceptionMessages;
 import com.iaito.yms.applicationserver.exceptions.MqttException;
 import com.iaito.yms.applicationserver.model.MqttPublishModel;
@@ -46,7 +47,18 @@ public class MqttController {
             countDownLatch.countDown();
         });
         countDownLatch.await(waitMillis, TimeUnit.MILLISECONDS);
+        System.out.println("subscribe-------");
         return messages;
+    }
+    
+    @GetMapping("startSubscriber")
+    public String subscribe()throws InterruptedException, org.eclipse.paho.client.mqttv3.MqttException 
+    {
+
+    	MqttSetting mqs = new MqttSetting();
+    		
+        System.out.println("subscribe()");
+        return "Started";
     }
 
 }
