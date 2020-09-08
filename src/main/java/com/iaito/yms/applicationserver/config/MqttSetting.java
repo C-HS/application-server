@@ -1,12 +1,12 @@
 package com.iaito.yms.applicationserver.config;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
+//import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.springframework.stereotype.Service;
+//import org.springframework.stereotype.Service;
 
 
 public class MqttSetting implements MqttCallbackExtended {
@@ -25,7 +25,7 @@ public class MqttSetting implements MqttCallbackExtended {
 		try
 		{
 			System.out.println("11111111111111");
-		     client = new MqttClient("tcp://localhost:1883","MyAppRifidiServicesId11");
+		     client = new MqttClient("tcp://localhost:1883","MyApplicationServerSubscriber1");
 		     System.out.println("222222222222222222222");
 		     client.setCallback(this);
 		     System.out.println("333333333333");
@@ -44,8 +44,9 @@ public class MqttSetting implements MqttCallbackExtended {
 		    	 client.connect(mqOptions);
 	            }
 		     
-		     client.subscribe("testtopic"); //subscr
-		     System.out.println("9999999999999 "+mqOptions.getServerURIs());
+		     System.out.println("88888888888888 ");
+		     client.subscribe("GPSTopic"); //subscr
+		     System.out.println("9999999999999 ");
 		     
 		     System.out.println("SSSSSSSSSSSS ");
 		     
@@ -100,7 +101,7 @@ public class MqttSetting implements MqttCallbackExtended {
 		  if(reconnect)
 		  {
 			     
-			     client.subscribe("testtopic"); //subscr
+			     client.subscribe("GPSTopic"); //subscr
 		  }
 		  }
 		  catch(Exception e)
